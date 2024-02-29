@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinsSpawner : MonoBehaviour
@@ -14,13 +12,13 @@ public class CoinsSpawner : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            _points[i] = transform.GetChild(i).transform;
+            _points[i] = transform.GetChild(i);
             Spawn(_points[i]);
         }
     }
 
     private void Spawn(Transform point)
     {
-        _coinPrefab = Instantiate(_coinPrefab, point.position, Quaternion.identity);
+        var newCoin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
     }
 }

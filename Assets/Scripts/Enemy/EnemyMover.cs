@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -28,7 +26,7 @@ public class EnemyMover : MonoBehaviour
     private void MoveToTarget()
     {
         transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _speed * Time.deltaTime);
-        _animator.SetInteger(EnemyAnimatorController.Parameters.AnimState, 1);
+        _animator.SetInteger(EnemyAnimator.Parameters.AnimState, 1);
 
         if (transform.position == _currentTarget.position)
         {
