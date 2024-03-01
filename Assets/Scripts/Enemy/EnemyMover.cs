@@ -1,11 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private Transform _currentTarget;
     private Transform[] _targets;
     private int _currentTargetId;
@@ -13,6 +15,7 @@ public class EnemyMover : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _currentTargetId = 0;
         _currentTarget = _targets[_currentTargetId];
         FlipX(_currentTarget.position.x);
@@ -44,10 +47,7 @@ public class EnemyMover : MonoBehaviour
 
     private void FlipX(float targetPosition)
     {
-        if (targetPosition > transform.position.x)
-            GetComponent<SpriteRenderer>().flipX = true;
-        else
-            GetComponent<SpriteRenderer>().flipX = false;
+        _spriteRenderer.flipX = targetPosition > transform.position.x;
     }
 
     public void InitTargets(Transform[] targets)

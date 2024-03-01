@@ -6,10 +6,10 @@ public class CoinCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<Coin>())
+        if(collision.TryGetComponent(out Coin coin))
         {
             _coinsCount++;
-            Destroy(collision.gameObject);
+            Destroy(coin.gameObject);
             Debug.Log(_coinsCount);
         }
     }

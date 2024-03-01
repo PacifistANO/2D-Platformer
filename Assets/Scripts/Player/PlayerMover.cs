@@ -2,6 +2,7 @@
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerMover : MonoBehaviour
 {
     private const string Horizontal = nameof(Horizontal);
@@ -15,6 +16,7 @@ public class PlayerMover : MonoBehaviour
 
     private Animator _animator;
     private Rigidbody2D _rigidbody2d;
+    private SpriteRenderer _spriteRenderer;
     private bool _isGrounded = false;
     private float _delayToIdle = 0.0f;
     private int _gravityScaleOn = 1;
@@ -24,6 +26,7 @@ public class PlayerMover : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rigidbody2d = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -53,23 +56,12 @@ public class PlayerMover : MonoBehaviour
 
     private void FlipX(float inputX)
     {
-        if (inputX > 0)
-            GetComponent<SpriteRenderer>().flipX = false;
-        else if (inputX < 0)
-            GetComponent<SpriteRenderer>().flipX = true;
+        _spriteRenderer.flipX = inputX < 0;
     }
 
     private void CollisionWithGroundCheck()
     {
-        if (_isGrounded == false && _groundSensor.IsCollided == true)
-        {
-            _isGrounded = true;
-        }
-        else if (_isGrounded == true && _groundSensor.IsCollided == false)
-        {
-            _isGrounded = false;
-        }
-
+        _isGrounded = _groundSensor.IsCollided;
         _animator.SetBool(PlayerAnimator.Parameters.Grounded, _isGrounded);
     }
 
