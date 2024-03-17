@@ -3,11 +3,9 @@
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent (typeof(ControlPlayer))]
 public class PlayerMover : MonoBehaviour
 {
-    private const string Horizontal = nameof(Horizontal);
-    private const string Vertical = nameof(Vertical);
-    private const string Jump = nameof(Jump);
     private const string Ladder = nameof(Ladder);
 
     [SerializeField] private float _speed = 4.0f;
@@ -17,7 +15,9 @@ public class PlayerMover : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody2d;
     private SpriteRenderer _spriteRenderer;
+    private ControlPlayer _controlPlayer;
     private bool _isGrounded = false;
+    private bool _isPlaced = false;
     private float _delayToIdle = 0.0f;
     private int _gravityScaleOn = 1;
     private int _gravityScaleOff = 0;
@@ -27,31 +27,32 @@ public class PlayerMover : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void Update()
-    {
-        CollisionWithGroundCheck();
-        Move();
-        ToJump();
-
-        _animator.SetFloat(PlayerAnimator.Parameters.AirSpeedY, _rigidbody2d.velocity.y);
+        _controlPlayer = GetComponent<ControlPlayer>();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == Ladder && _isGrounded)
-        {
-            _rigidbody2d.gravityScale = _gravityScaleOff;
-            float inputY = Input.GetAxis(Vertical);
-            _rigidbody2d.velocity = new Vector2(0, inputY * _speed);
-        }
+        if (collision.tag == Ladder)
+            _isPlaced = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == Ladder)
-            _rigidbody2d.gravityScale = _gravityScaleOn;
+            _isPlaced = false;
+    }
+
+    private void Update()
+    {
+        CollisionWithGroundCheck();
+        _animator.SetFloat(PlayerAnimator.Parameters.AirSpeedY, _rigidbody2d.velocity.y);
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+        Jump();
+        Climb();
     }
 
     private void FlipX(float inputX)
@@ -67,11 +68,10 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()
     {
-        float inputX = Input.GetAxis(Horizontal);
-        _rigidbody2d.velocity = new Vector2(inputX * _speed, _rigidbody2d.velocity.y);
-        FlipX(inputX);
+        _rigidbody2d.velocity = new Vector2(_controlPlayer.InputX * _speed, _rigidbody2d.velocity.y);
+        FlipX(_controlPlayer.InputX);
 
-        if (Mathf.Abs(inputX) > Mathf.Epsilon && _isGrounded == true)
+        if (Mathf.Abs(_controlPlayer.InputX) > Mathf.Epsilon && _isGrounded == true)
         {
             _delayToIdle = Mathf.Epsilon;
             _animator.SetInteger(PlayerAnimator.Parameters.AnimState, 1);
@@ -85,14 +85,27 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    private void ToJump()
+    private void Jump()
     {
-        if (Input.GetAxis(Jump) > 0 && _isGrounded == true)
+        if (_controlPlayer.JumpY > 0 && _isGrounded == true)
         {
             _animator.SetTrigger(PlayerAnimator.Parameters.Jump);
             _isGrounded = false;
             _animator.SetBool(PlayerAnimator.Parameters.Grounded, _isGrounded);
             _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, _jumpForce);
+        }
+    }
+
+    private void Climb()
+    {
+        if (_isPlaced == true)
+        {
+            _rigidbody2d.gravityScale = _gravityScaleOff;
+            _rigidbody2d.velocity = new Vector2(_controlPlayer.InputX * _speed, _controlPlayer.InputY * _speed);
+        }
+        else
+        {
+            _rigidbody2d.gravityScale = _gravityScaleOn;
         }
     }
 }

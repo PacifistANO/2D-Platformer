@@ -8,8 +8,8 @@ public class EnemyMover : MonoBehaviour
 
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    private Transform _currentTarget;
     private Transform[] _targets;
+    private Transform _currentTarget;
     private int _currentTargetId;
 
     private void Start()
@@ -21,7 +21,7 @@ public class EnemyMover : MonoBehaviour
         FlipX(_currentTarget.position.x);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         MoveToTarget();
     }
@@ -33,15 +33,14 @@ public class EnemyMover : MonoBehaviour
 
         if (transform.position == _currentTarget.position)
         {
-            SetTarget();
+            ChangeCurrentTarget();
             FlipX(_currentTarget.position.x);
         }
-
     }
 
-    private void SetTarget()
+    private void ChangeCurrentTarget()
     {
-        _currentTargetId = (_currentTargetId + 1) % _targets.Length;
+        _currentTargetId = (++_currentTargetId) % _targets.Length;
         _currentTarget = _targets[_currentTargetId];
     }
 

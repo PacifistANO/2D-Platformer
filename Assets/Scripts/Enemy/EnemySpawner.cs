@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private List<Enemy> _enemyPrefabs;
 
     private Transform[] _targetPoints;
+    private int _enemyIndex;
 
     private void Start()
     {
@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            _targetPoints[i] = transform.GetChild(i).transform;
+            _targetPoints[i] = transform.GetChild(i);
         }
 
         Spawn();
@@ -22,7 +22,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawn()
     {
-        var newEnemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+        _enemyIndex = Random.Range(0, _enemyPrefabs.Count);
+        var newEnemy = Instantiate(_enemyPrefabs[_enemyIndex], transform.position, Quaternion.identity);
         newEnemy.GetComponent<EnemyMover>().InitTargets(_targetPoints);
     }
 }

@@ -1,16 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CoinCollector : MonoBehaviour
 {
-    private int _coinsCount;
+    private List<Coin> _wallet = new List<Coin>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.TryGetComponent(out Coin coin))
         {
-            _coinsCount++;
-            Destroy(coin.gameObject);
-            Debug.Log(_coinsCount);
+            coin.Collected();
+            _wallet.Add(coin);
+            Debug.Log(_wallet.Count);
         }
     }
 }

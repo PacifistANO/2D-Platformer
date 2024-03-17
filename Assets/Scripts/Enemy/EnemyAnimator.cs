@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyAnimator : MonoBehaviour
+public class EnemyAnimator
 {
     public static class Parameters
     {
