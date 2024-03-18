@@ -2,20 +2,21 @@
 
 public class PlayerGroundSensor : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layerMask;
+
     private bool _isCollided;
-    private const string Ground = nameof(Ground);
 
     public bool IsCollided => _isCollided;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void FixedUpdate()
     {
-        if (other.tag == Ground)
+        if (Physics2D.Raycast(transform.position, -transform.up, 0.1f, _layerMask))
+        {
             _isCollided = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == Ground)
+        }
+        else
+        {
             _isCollided = false;
+        }
     }
 }

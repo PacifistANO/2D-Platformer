@@ -1,13 +1,12 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(SpriteRenderer))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
     private Transform[] _targets;
     private Transform _currentTarget;
     private int _currentTargetId;
@@ -15,7 +14,6 @@ public class EnemyMover : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
         _currentTargetId = 0;
         _currentTarget = _targets[_currentTargetId];
         FlipX(_currentTarget.position.x);
@@ -24,6 +22,11 @@ public class EnemyMover : MonoBehaviour
     private void FixedUpdate()
     {
         MoveToTarget();
+    }
+
+    public void InitTargets(Transform[] targets)
+    {
+        _targets = targets;
     }
 
     private void MoveToTarget()
@@ -40,17 +43,13 @@ public class EnemyMover : MonoBehaviour
 
     private void ChangeCurrentTarget()
     {
-        _currentTargetId = (++_currentTargetId) % _targets.Length;
+        _currentTargetId = ++_currentTargetId % _targets.Length;
         _currentTarget = _targets[_currentTargetId];
     }
 
     private void FlipX(float targetPosition)
     {
-        _spriteRenderer.flipX = targetPosition > transform.position.x;
-    }
-
-    public void InitTargets(Transform[] targets)
-    {
-        _targets = targets;
+        bool direction = targetPosition > transform.position.x;
+        transform.rotation = Quaternion.Euler(0, 180 * Convert.ToInt32(direction), 0);
     }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class PlayerAnimator
 {
     public static class Parameters

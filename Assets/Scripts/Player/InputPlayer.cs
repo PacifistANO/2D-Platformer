@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ControlPlayer : MonoBehaviour
+public class InputPlayer : MonoBehaviour
 {
     private const string Horizontal = nameof(Horizontal);
     private const string Vertical = nameof(Vertical);

@@ -7,11 +7,6 @@ public class CoinsSpawner : MonoBehaviour
     private Coin _newCoin;
     private Transform[] _points;
 
-    private void OnDisable()
-    {
-        _newCoin.CoinCollected -= DeleteCoin;
-    }
-
     private void Start()
     {
         _points = new Transform[transform.childCount];
@@ -21,6 +16,11 @@ public class CoinsSpawner : MonoBehaviour
             _points[i] = transform.GetChild(i);
             Spawn(_points[i]);
         }
+    }
+
+    private void OnDisable()
+    {
+        _newCoin.CoinCollected -= DeleteCoin;
     }
 
     private void Spawn(Transform point)
