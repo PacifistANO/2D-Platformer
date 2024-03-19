@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent (typeof(PlayerGroundSensor))]
 public class PlayerMover : MonoBehaviour
 {
-    private const string Ladder = nameof(Ladder);
-
     [SerializeField] private float _speed = 4.0f;
     [SerializeField] private float _jumpForce = 7.5f;
 
