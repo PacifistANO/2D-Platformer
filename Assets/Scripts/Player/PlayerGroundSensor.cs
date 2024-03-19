@@ -11,13 +11,6 @@ public class PlayerGroundSensor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Physics2D.Raycast(transform.position, -transform.up, _checkDistance, _layerMask))
-        {
-            _isCollided = true;
-        }
-        else
-        {
-            _isCollided = false;
-        }
+        _isCollided = Physics2D.Raycast(transform.position, -transform.up, _checkDistance, _layerMask);
     }
 }

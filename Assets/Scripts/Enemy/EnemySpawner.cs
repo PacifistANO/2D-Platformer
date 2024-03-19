@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     {
         _targetPoints = new Transform[transform.childCount];
 
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < _targetPoints.Length; i++)
         {
             _targetPoints[i] = transform.GetChild(i);
         }

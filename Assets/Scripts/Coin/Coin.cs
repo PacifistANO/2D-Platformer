@@ -1,9 +1,9 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Coin : MonoBehaviour 
 {
-    public UnityAction<Coin> CoinCollected;
+    public event Action<Coin> CoinCollected;
 
     public void Collected()
     {

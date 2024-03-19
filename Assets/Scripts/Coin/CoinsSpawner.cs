@@ -4,7 +4,6 @@ public class CoinsSpawner : MonoBehaviour
 {
     [SerializeField] private Coin _coinPrefab;
 
-    private Coin _newCoin;
     private Transform[] _points;
 
     private void Start()
@@ -18,19 +17,15 @@ public class CoinsSpawner : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        _newCoin.CoinCollected -= DeleteCoin;
-    }
-
     private void Spawn(Transform point)
     {
-        _newCoin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
-        _newCoin.CoinCollected += DeleteCoin;
+        var newCoin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
+        newCoin.CoinCollected += DeleteCoin;
     }
 
     private void DeleteCoin(Coin coin)
     {
+        coin.CoinCollected -= DeleteCoin;
         Destroy(coin.gameObject);
     }
 }

@@ -30,13 +30,13 @@ public class PlayerMover : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == Ladder)
+        if (collision.TryGetComponent(out Ladder ladder))
             _isPreparedToClimb = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == Ladder)
+        if (collision.TryGetComponent(out Ladder ladder))
             _isPreparedToClimb = false;
     }
 
