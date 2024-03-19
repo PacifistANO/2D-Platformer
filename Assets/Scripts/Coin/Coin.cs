@@ -5,7 +5,7 @@ public class Coin : MonoBehaviour
 {
     public event Action<Coin> CoinCollected;
 
-    public void Collected()
+    public void Collect()
     {
         CoinCollected?.Invoke(this);
     }

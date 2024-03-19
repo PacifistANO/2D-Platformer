@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         _enemyIndex = Random.Range(0, _enemyPrefabs.Count);
-        var newEnemy = Instantiate(_enemyPrefabs[_enemyIndex], transform.position, Quaternion.identity);
+        Enemy newEnemy = Instantiate(_enemyPrefabs[_enemyIndex], transform.position, Quaternion.identity);
         newEnemy.GetComponent<EnemyMover>().InitTargets(_targetPoints);
     }
 }

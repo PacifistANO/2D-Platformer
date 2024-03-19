@@ -12,6 +12,7 @@ public class PlayerMover : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody2d;
     private InputPlayer _controlPlayer;
+    private Fliper _fliper;
     private bool _isGrounded = false;
     private bool _isPreparedToClimb = false;
     private float _delayToIdle = 0.0f;
@@ -24,6 +25,7 @@ public class PlayerMover : MonoBehaviour
         _rigidbody2d = GetComponent<Rigidbody2D>();
         _controlPlayer = GetComponent<InputPlayer>();
         _groundSensor = GetComponent<PlayerGroundSensor>(); 
+        _fliper = new Fliper();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -51,12 +53,6 @@ public class PlayerMover : MonoBehaviour
         Climb();
     }
 
-    private void FlipX(float inputX)
-    {
-        bool direction = inputX < 0;
-        transform.rotation = Quaternion.Euler(0, 180 * Convert.ToInt32(direction), 0);
-    }
-
     private void ConfirmGroundCollision()
     {
         _isGrounded = _groundSensor.IsCollided;
@@ -66,7 +62,7 @@ public class PlayerMover : MonoBehaviour
     private void Move()
     {
         _rigidbody2d.velocity = new Vector2(_controlPlayer.InputX * _speed, _rigidbody2d.velocity.y);
-        FlipX(_controlPlayer.InputX);
+        transform.rotation = _fliper.FlipX(0, _controlPlayer.InputX);
 
         if (Mathf.Abs(_controlPlayer.InputX) > Mathf.Epsilon && _isGrounded == true)
         {

@@ -9,6 +9,7 @@ public class EnemyMover : MonoBehaviour
     private Animator _animator;
     private Transform[] _targets;
     private Transform _currentTarget;
+    private Fliper _fliper;
     private int _currentTargetId;
 
     private void Start()
@@ -16,7 +17,8 @@ public class EnemyMover : MonoBehaviour
         _animator = GetComponent<Animator>();
         _currentTargetId = 0;
         _currentTarget = _targets[_currentTargetId];
-        FlipX(_currentTarget.position.x);
+        _fliper = new Fliper();
+        transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
     }
 
     private void FixedUpdate()
@@ -37,7 +39,7 @@ public class EnemyMover : MonoBehaviour
         if (transform.position == _currentTarget.position)
         {
             ChangeCurrentTarget();
-            FlipX(_currentTarget.position.x);
+            transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
         }
     }
 
@@ -45,11 +47,5 @@ public class EnemyMover : MonoBehaviour
     {
         _currentTargetId = ++_currentTargetId % _targets.Length;
         _currentTarget = _targets[_currentTargetId];
-    }
-
-    private void FlipX(float targetPosition)
-    {
-        bool direction = targetPosition > transform.position.x;
-        transform.rotation = Quaternion.Euler(0, 180 * Convert.ToInt32(direction), 0);
     }
 }

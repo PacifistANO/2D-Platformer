@@ -9,7 +9,7 @@ public class CoinCollector : MonoBehaviour
     {
         if(collision.TryGetComponent(out Coin coin))
         {
-            coin.Collected();
+            coin.Collect();
             _wallet.Add(coin);
             Debug.Log(_wallet.Count);
         }
