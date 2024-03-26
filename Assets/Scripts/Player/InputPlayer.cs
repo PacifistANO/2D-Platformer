@@ -9,15 +9,18 @@ public class InputPlayer : MonoBehaviour
     private float _inputX;
     private float _inputY;
     private float _jumpY;
+    private bool _isAttacked;
 
     public float InputX => _inputX;
     public float InputY => _inputY;
     public float JumpY => _jumpY;
+    public bool IsAttacked => _isAttacked;
 
     private void Update()
     {
         _inputX = Input.GetAxis(Horizontal);
         _inputY = Input.GetAxis(Vertical);
         _jumpY = Input.GetAxis(Jump);
+        _isAttacked = Input.GetKeyDown(KeyCode.E);
     }
 }

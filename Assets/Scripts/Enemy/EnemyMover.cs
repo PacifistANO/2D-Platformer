@@ -11,6 +11,11 @@ public class EnemyMover : MonoBehaviour
     private Transform _currentTarget;
     private Fliper _fliper;
     private int _currentTargetId;
+    private int direction = 1;
+    private float _minDistanceToTarget = 0.1f;
+    private bool _playerDetected;
+    private float _attackSpeed;
+    private float _patrolSpeed;
 
     private void Start()
     {
@@ -19,6 +24,8 @@ public class EnemyMover : MonoBehaviour
         _currentTarget = _targets[_currentTargetId];
         _fliper = new Fliper();
         transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
+        _attackSpeed = _speed * 1.5f;
+        _patrolSpeed = _speed;
     }
 
     private void FixedUpdate()
@@ -31,16 +38,45 @@ public class EnemyMover : MonoBehaviour
         _targets = targets;
     }
 
+    public void SetTarget(Transform target)
+    {
+        if (target != null)
+        {
+            _speed = _attackSpeed;
+            _currentTarget = target;
+            _playerDetected = true;
+            ChooseDirection();
+        }
+
+        else if (_playerDetected == true)
+        {
+            _speed = _patrolSpeed;
+            _playerDetected = false;
+            ChangeCurrentTarget();
+            ChooseDirection();
+        }
+    }
+
     private void MoveToTarget()
     {
-        transform.position = Vector2.MoveTowards(transform.position, _currentTarget.position, _speed * Time.deltaTime);
-        _animator.SetInteger(EnemyAnimator.Parameters.AnimState, 1);
+        _animator.SetInteger(HumanAnimator.Parameters.AnimState, 1);
+        transform.Translate(Vector2.right * direction * _speed * Time.deltaTime, Space.World);
 
-        if (transform.position == _currentTarget.position)
+        if (Vector2.Distance(transform.position, _currentTarget.position) < _minDistanceToTarget)
         {
             ChangeCurrentTarget();
-            transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
+            ChooseDirection();
         }
+    }
+
+    private void ChooseDirection()
+    {
+        if (_currentTarget.position.x > transform.position.x)
+            direction = 1;
+        else
+            direction = -1;
+
+        transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
     }
 
     private void ChangeCurrentTarget()

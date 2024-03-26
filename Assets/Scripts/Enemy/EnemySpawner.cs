@@ -24,6 +24,12 @@ public class EnemySpawner : MonoBehaviour
     {
         _enemyIndex = Random.Range(0, _enemyPrefabs.Count);
         Enemy newEnemy = Instantiate(_enemyPrefabs[_enemyIndex], transform.position, Quaternion.identity);
-        newEnemy.GetComponent<EnemyMover>().InitTargets(_targetPoints);
+        
+        if(newEnemy.TryGetComponent(out EnemyMover enemyMover))
+        {
+            enemyMover.InitTargets(_targetPoints);
+        }
+
+        newEnemy.transform.SetParent(transform);
     }
 }
