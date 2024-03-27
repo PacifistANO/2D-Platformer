@@ -5,48 +5,54 @@ using UnityEngine;
 public class HitterPlayer : Hitter
 {
     private InputPlayer _inputPlayer;
-    private float _timeAfterLastAttack;
 
     private void OnEnable()
     {
-        _attackPoint = transform.GetChild(0);
-        _damage = GetComponent<Player>().Damage;
-        _animator = GetComponent<Animator>();
+        AttackPoint = transform.GetChild(0);
+        Damage = GetComponent<Player>().Damage;
+        Animator = GetComponent<Animator>();
         _inputPlayer = GetComponent<InputPlayer>();
-        _timeAfterLastAttack = _delayBetweenAttacks;
     }
 
-    private void Update()
+    private void Start()
     {
-        _timeAfterLastAttack += Time.deltaTime;
-
-        if (_timeAfterLastAttack >= _delayBetweenAttacks)
-        {
-            Hitting();
-        }
+        StartCoroutine(Hitting());
     }
 
     private void FixedUpdate()
     {
-        Collider2D target = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, _targetLayerMask);
+        Collider2D target = Physics2D.OverlapCircle(AttackPoint.position, AttackRadius, TargetLayerMask);
 
         if (target != null)
-            _target = target.GetComponent<Enemy>();
-        else if (_target != null)
-            _target = null;
+            Target = target.GetComponent<Enemy>();
+        else if (Target != null)
+            Target = null;
     }
 
-    private void Hitting()
+    private void OnDisable()
     {
-        if (_inputPlayer.IsAttacked == true)
-        {
-            _animator.SetTrigger(HumanAnimator.Parameters.Attack);
-            _timeAfterLastAttack = 0;
+        StopCoroutine(Hitting());
+    }
 
-            if (_target != null)
+    private IEnumerator Hitting()
+    {
+        WaitForSeconds waitingTime = new WaitForSeconds(DelayBetweenAttacks);
+
+        while (true)
+        {
+            if (_inputPlayer.IsAttacked == true)
             {
-                Hit();
+                Animator.SetTrigger(HumanAnimator.Parameters.Attack);
+
+                if (Target != null)
+                {
+                    Hit();
+                }
+
+                yield return waitingTime;
             }
+            else
+                yield return null;
         }
     }
 }

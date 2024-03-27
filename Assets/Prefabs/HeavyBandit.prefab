@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f32a16015b4b064780e7ba06d527a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 150
+  Health: 150
   _damage: 20
 --- !u!114 &-7893579513365067907
 MonoBehaviour:
@@ -242,9 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9b964ad944342489d065165be10cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRadius: 0.1
-  _delayBetweenAttacks: 1.5
-  _targetLayerMask:
+  AttackRadius: 0.1
+  DelayBetweenAttacks: 1.5
+  TargetLayerMask:
     serializedVersion: 2
     m_Bits: 64
   _gizmoColor: {r: 0.8490566, g: 0.1265574, b: 0.1265574, a: 0.20392157}

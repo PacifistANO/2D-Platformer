@@ -1,10 +1,11 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Animator))]
 public class Enemy : Human 
 {
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
     }
 }
 

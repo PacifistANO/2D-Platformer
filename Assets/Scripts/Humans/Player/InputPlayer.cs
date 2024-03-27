@@ -6,20 +6,17 @@ public class InputPlayer : MonoBehaviour
     private const string Vertical = nameof(Vertical);
     private const string Jump = nameof(Jump);
 
-    private float _inputX;
-    private float _inputY;
+    private Vector2 _inputXY;
     private float _jumpY;
     private bool _isAttacked;
 
-    public float InputX => _inputX;
-    public float InputY => _inputY;
+    public Vector2 InputXY => _inputXY;
     public float JumpY => _jumpY;
     public bool IsAttacked => _isAttacked;
 
     private void Update()
     {
-        _inputX = Input.GetAxis(Horizontal);
-        _inputY = Input.GetAxis(Vertical);
+        _inputXY = new Vector2(Input.GetAxis(Horizontal),Input.GetAxis(Vertical));
         _jumpY = Input.GetAxis(Jump);
         _isAttacked = Input.GetKeyDown(KeyCode.E);
     }

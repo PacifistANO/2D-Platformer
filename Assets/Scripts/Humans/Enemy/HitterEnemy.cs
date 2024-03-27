@@ -9,20 +9,20 @@ public class HitterEnemy : Hitter
 
     private void OnEnable()
     {
-        _attackPoint = transform.GetChild(0);
+        AttackPoint = transform.GetChild(0);
+        Damage = GetComponent<Enemy>().Damage;
+        Animator = GetComponent<Animator>();
         _enemyMover = GetComponent<EnemyMover>();
-        _damage = GetComponent<Enemy>().Damage;
-        _animator = GetComponent<Animator>();
-        _delayBeforeDamage = 0.4f;
+        _delayBeforeDamage = 0.5f;
     }
 
     private void FixedUpdate()
     {
-        Collider2D target = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, _targetLayerMask);
+        Collider2D target = Physics2D.OverlapCircle(AttackPoint.position, AttackRadius, TargetLayerMask);
 
         if (target != null)
         {
-            _target = target.GetComponent<Player>();
+            Target = target.GetComponent<Player>();
 
             StartAttack();
         }
@@ -32,25 +32,25 @@ public class HitterEnemy : Hitter
 
     private void OnDisable()
     {
-        if (_attack != null)
-            StopCoroutine(_attack);
+        if (Attack != null)
+            StopCoroutine(Attack);
     }
 
     private void StartAttack()
     {
-        _animator.SetInteger(HumanAnimator.Parameters.AnimState, 0);
+        Animator.SetInteger(HumanAnimator.Parameters.AnimState, 0);
         _enemyMover.enabled = false;
 
-        if (_attack == null)
-            _attack = StartCoroutine(Hitting());
+        if (Attack == null)
+            Attack = StartCoroutine(Hitting());
     }
 
     private void StopAttack()
     {
-        if (_attack != null)
+        if (Attack != null)
         {
-            StopCoroutine(_attack);
-            _attack = null;
+            StopCoroutine(Attack);
+            Attack = null;
         }
 
         if (_enemyMover.enabled == false)
@@ -59,11 +59,11 @@ public class HitterEnemy : Hitter
 
     private IEnumerator Hitting()
     {
-        var waitingTime = new WaitForSeconds(_delayBetweenAttacks);
+        var waitingTime = new WaitForSeconds(DelayBetweenAttacks);
 
-        while (_target != null)
+        while (Target != null)
         {
-            _animator.SetTrigger(HumanAnimator.Parameters.Attack);
+            Animator.SetTrigger(HumanAnimator.Parameters.Attack);
             Invoke(nameof(Hit), _delayBeforeDamage);
             yield return waitingTime;
         }

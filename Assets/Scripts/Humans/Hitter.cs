@@ -1,31 +1,31 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class Hitter : MonoBehaviour
 {
-    [SerializeField] protected float _attackRadius;
-    [SerializeField] protected float _delayBetweenAttacks;
-    [SerializeField] protected LayerMask _targetLayerMask;
-    [SerializeField] protected Color _gizmoColor;
+    [SerializeField] protected float AttackRadius;
+    [SerializeField] protected float DelayBetweenAttacks;
+    [SerializeField] protected LayerMask TargetLayerMask;
 
-    protected Transform _attackPoint;
-    protected Human _target;
-    protected Coroutine _attack;
-    protected Animator _animator;
-    protected WaitForSeconds _waitingTime;
-    protected int _damage;
+    [SerializeField] private Color _gizmosColor;
+
+    protected Transform AttackPoint;
+    protected Human Target;
+    protected Coroutine Attack;
+    protected Animator Animator;
+    protected WaitForSeconds WaitingTime;
+    protected int Damage;
 
     protected void Hit()
     {
-        _target.TakeDamage(_damage);
+        Target.TakeDamage(Damage);
     }
 
     private void OnDrawGizmos()
     {
-        if (_attackPoint != null)
+        if (AttackPoint != null)
         {
-            Gizmos.color = _gizmoColor;
-            Gizmos.DrawSphere(_attackPoint.position, _attackRadius);
+            Gizmos.color = _gizmosColor;
+            Gizmos.DrawSphere(AttackPoint.position, AttackRadius);
         }
     }
 }

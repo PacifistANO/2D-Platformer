@@ -558,9 +558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03366ee6c33efc4c90328bf800b80a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRadius: 0.1
-  _delayBetweenAttacks: 0.7
-  _targetLayerMask:
+  AttackRadius: 0.1
+  DelayBetweenAttacks: 0.5
+  TargetLayerMask:
     serializedVersion: 2
     m_Bits: 128
   _gizmoColor: {r: 0.90943396, g: 0.23164818, b: 0.23164818, a: 0.24313726}
@@ -29379,6 +29379,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 752188963095858264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: Health
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 752188963095858264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: _damage
       value: 20

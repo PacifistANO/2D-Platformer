@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 
+[RequireComponent (typeof(Animator))]
 public class Player : Human 
 {
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
     }
 
     public void AddHealth(Healer healer)
     {
-        _health += healer.HealthIncrease;
+        Health += healer.HealthIncrease;
     }
 }

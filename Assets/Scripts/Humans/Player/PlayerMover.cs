@@ -60,11 +60,11 @@ public class PlayerMover : MonoBehaviour
 
     private void Move()
     {
-        _rigidbody2d.velocity = new Vector2(_controlPlayer.InputX * _speed, _rigidbody2d.velocity.y);
+        _rigidbody2d.velocity = new Vector2(_controlPlayer.InputXY.x * _speed, _rigidbody2d.velocity.y);
 
-        if (Mathf.Abs(_controlPlayer.InputX) > Mathf.Epsilon && _isGrounded == true)
+        if (Mathf.Abs(_controlPlayer.InputXY.x) > Mathf.Epsilon && _isGrounded == true)
         {
-            transform.rotation = _fliper.FlipX(0, _controlPlayer.InputX);
+            transform.rotation = _fliper.FlipX(0, _controlPlayer.InputXY.x);
             _animator.SetInteger(HumanAnimator.Parameters.AnimState, 1);
         }
         else
@@ -87,7 +87,7 @@ public class PlayerMover : MonoBehaviour
         if (_isPreparedToClimb == true)
         {
             _rigidbody2d.gravityScale = _gravityScaleOff;
-            _rigidbody2d.velocity = new Vector2(_controlPlayer.InputX * _speed, _controlPlayer.InputY * _speed);
+            _rigidbody2d.velocity = new Vector2(_controlPlayer.InputXY.x * _speed, _controlPlayer.InputXY.y * _speed);
         }
         else
             _rigidbody2d.gravityScale = _gravityScaleOn;

@@ -2,32 +2,33 @@ using UnityEngine;
 
 public abstract class Human : MonoBehaviour
 {
-    [SerializeField] protected int _health;
-    [SerializeField] protected int _damage;
+    [SerializeField] protected int Health;
 
-    protected Animator _animator;
+    [SerializeField] private int _damage;
+
+    protected Animator Animator;
 
     public int Damage => _damage;
 
     public void TakeDamage(int damage)
     {
-        _animator.SetTrigger(HumanAnimator.Parameters.Hurt);
-        _health -= damage;
+        Animator.SetTrigger(HumanAnimator.Parameters.Hurt);
+        Health -= damage;
 
-        if (_health <= 0)
+        if (Health <= 0)
             Die();
     }
 
     private void Die()
     {
-        _animator.SetTrigger(HumanAnimator.Parameters.Death);
+        Animator.SetTrigger(HumanAnimator.Parameters.Death);
 
         if (TryGetComponent(out Rigidbody2D rigidbody2D))
             rigidbody2D.bodyType = RigidbodyType2D.Static;
 
         foreach (Behaviour behaviour in GetComponents<Behaviour>())
         {
-            if (behaviour != GetComponent<Animator>())
+            if (behaviour != Animator)
                 behaviour.enabled = false;
         }
     }
