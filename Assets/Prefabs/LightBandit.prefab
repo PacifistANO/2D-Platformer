@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -5667831376458745631}
   - component: {fileID: -6031415678506968284}
   - component: {fileID: -2879972507295402439}
+  - component: {fileID: 7072474202383358382}
   m_Layer: 7
   m_Name: LightBandit
   m_TagString: Untagged
@@ -197,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f32a16015b4b064780e7ba06d527a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
   _damage: 10
 --- !u!114 &-5667831376458745631
 MonoBehaviour:
@@ -247,7 +247,20 @@ MonoBehaviour:
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  _gizmoColor: {r: 0.8490566, g: 0.1265574, b: 0.1265574, a: 0.20392157}
+  _gizmosColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &7072474202383358382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689866831511430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c80aa933c630140871fe23797de0e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
 --- !u!1 &2262428136608703244
 GameObject:
   m_ObjectHideFlags: 0

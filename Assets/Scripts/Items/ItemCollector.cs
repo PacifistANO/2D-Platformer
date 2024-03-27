@@ -5,13 +5,13 @@ using UnityEngine;
 public class ItemCollector : MonoBehaviour
 {
     private List<Coin> _wallet = new List<Coin>();
-    private Player _player;
+    private CharacterHealth _playerHealth;
 
     public Action<Item> ItemCollected;
 
     private void Start()
     {
-        _player = GetComponent<Player>();
+        _playerHealth = GetComponent<CharacterHealth>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,7 +25,7 @@ public class ItemCollector : MonoBehaviour
 
         else if(collision.TryGetComponent(out Healer healer))
         {
-            _player.AddHealth(healer);
+            _playerHealth.IncreaseHealth(healer.HealthIncrease);
             ItemCollected?.Invoke(healer);
             Debug.Log($"Прибавка к здоровью + {healer.HealthIncrease}");
         }
