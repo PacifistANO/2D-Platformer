@@ -559,11 +559,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackRadius: 0.1
-  DelayBetweenAttacks: 0.5
+  DelayBetweenAttacks: 1
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  _gizmoColor: {r: 0.90943396, g: 0.23164818, b: 0.23164818, a: 0.24313726}
+  _gizmosColor: {r: 0.85660374, g: 0.3151654, b: 0.3151654, a: 0.23137255}
 --- !u!1001 &294743014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29388,6 +29388,14 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 752188963095858264, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: _health
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276299642474104218, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: _value
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3276299642474104218, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: _health
       value: 120
       objectReference: {fileID: 0}

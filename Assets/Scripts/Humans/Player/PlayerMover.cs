@@ -67,7 +67,9 @@ public class PlayerMover : MonoBehaviour
             _animator.SetInteger(HumanAnimator.Parameters.AnimState, 1);
         }
         else
+        {
             _animator.SetInteger(HumanAnimator.Parameters.AnimState, 0);
+        }
     }
 
     private void Jump()
@@ -89,6 +91,8 @@ public class PlayerMover : MonoBehaviour
             _rigidbody2d.velocity = new Vector2(_controlPlayer.InputXY.x * _speed, _controlPlayer.InputXY.y * _speed);
         }
         else
+        {
             _rigidbody2d.gravityScale = _gravityScaleOn;
+        }
     }
 }

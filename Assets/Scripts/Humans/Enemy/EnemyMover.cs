@@ -1,59 +1,41 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Animator), typeof(EnemyPatrolling), typeof(EnemyPursuit))]
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-
+    private float _speed;
     private Animator _animator;
-    private Transform[] _targets;
-    private Transform _currentTarget;
     private Fliper _fliper;
-    private int _currentTargetId;
     private int direction = 1;
     private float _minDistanceToTarget = 0.1f;
-    private bool _playerDetected;
-    private float _attackSpeed;
-    private float _patrolSpeed;
+    private Transform _currentTarget;
+    private EnemyPatrolling _enemyPatrolling;
+    private EnemyPursuit _enemyPursuit;
+
+    private void OnEnable()
+    {
+        _enemyPursuit = GetComponent<EnemyPursuit>();
+        _enemyPursuit.TargetDetected += SetTarget;
+    }
+
+    private void OnDisable()
+    {
+        _enemyPursuit.TargetDetected -= SetTarget;
+    }
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _currentTargetId = 0;
-        _currentTarget = _targets[_currentTargetId];
+        _enemyPatrolling = GetComponent<EnemyPatrolling>();
         _fliper = new Fliper();
-        transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
-        _attackSpeed = _speed * 1.5f;
-        _patrolSpeed = _speed;
+        _speed = _enemyPatrolling.Speed;
+        _currentTarget = _enemyPatrolling.CurrentTarget;
+        ChooseDirection();
     }
 
     private void FixedUpdate()
     {
         MoveToTarget();
-    }
-
-    public void InitTargets(Transform[] targets)
-    {
-        _targets = targets;
-    }
-
-    public void SetTarget(Transform target)
-    {
-        if (target != null)
-        {
-            _speed = _attackSpeed;
-            _currentTarget = target;
-            _playerDetected = true;
-            ChooseDirection();
-        }
-
-        else if (_playerDetected == true)
-        {
-            _speed = _patrolSpeed;
-            _playerDetected = false;
-            ChangeCurrentTarget();
-            ChooseDirection();
-        }
     }
 
     private void MoveToTarget()
@@ -63,7 +45,7 @@ public class EnemyMover : MonoBehaviour
 
         if (Vector2.Distance(transform.position, _currentTarget.position) < _minDistanceToTarget)
         {
-            ChangeCurrentTarget();
+            _enemyPatrolling.SetNextPoint(ref _currentTarget);
             ChooseDirection();
         }
     }
@@ -78,9 +60,19 @@ public class EnemyMover : MonoBehaviour
         transform.rotation = _fliper.FlipX(_currentTarget.position.x, transform.position.x);
     }
 
-    private void ChangeCurrentTarget()
+    private void SetTarget(Transform target, float speed)
     {
-        _currentTargetId = ++_currentTargetId % _targets.Length;
-        _currentTarget = _targets[_currentTargetId];
+        if (target != null)
+        {
+            _currentTarget = target;
+            _speed = speed;
+        }
+        else
+        {
+            _currentTarget = _enemyPatrolling.CurrentTarget;
+            _speed = _enemyPatrolling.Speed;
+        }
+
+        ChooseDirection();
     }
 }

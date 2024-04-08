@@ -2,17 +2,19 @@ using UnityEngine;
 
 public class CharacterHealth : MonoBehaviour
 {
-    [SerializeField] private int _health;
+    [SerializeField] private int _value;
 
-    public int Health => _health;
+    public int Value => _value;
 
     public void IncreaseHealth(int addition)
     {
-        _health += addition;
+        if (addition >= 0)
+            _value += addition;
     }
 
     public void DecreaseHealth(int reduction)
     {
-        _health -= reduction;
-    }    
+        if (reduction >= 0)
+            _value -= reduction;
+    }
 }

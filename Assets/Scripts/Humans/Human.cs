@@ -9,12 +9,18 @@ public abstract class Human : MonoBehaviour
 
     public int Damage => _damage;
 
+    private void Start()
+    {
+        Animator = GetComponent<Animator>();
+        CharacterHealth = GetComponent<CharacterHealth>();
+    }
+
     public void TakeDamage(int damage)
     {
         Animator.SetTrigger(HumanAnimator.Parameters.Hurt);
         CharacterHealth.DecreaseHealth(damage);
 
-        if (CharacterHealth.Health <= 0)
+        if (CharacterHealth.Value <= 0)
             Die();
     }
 

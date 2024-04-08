@@ -11,48 +11,41 @@ public class HitterPlayer : Hitter
         AttackPoint = transform.GetChild(0);
         Damage = GetComponent<Player>().Damage;
         Animator = GetComponent<Animator>();
+        WaitingTime = new WaitForSeconds(DelayBetweenAttacks);
         _inputPlayer = GetComponent<InputPlayer>();
     }
 
-    private void Start()
+    private void Update()
     {
-        StartCoroutine(Hitting());
+        if (_inputPlayer.IsAttacked == true && Attacking == null)
+        {
+            Attack();
+        }
     }
 
-    private void FixedUpdate()
+    private void Attack()
     {
-        Collider2D target = Physics2D.OverlapCircle(AttackPoint.position, AttackRadius, TargetLayerMask);
+        Collider2D collider = Physics2D.OverlapCircle(AttackPoint.position, AttackRadius, TargetLayerMask);
 
-        if (target != null)
-            Target = target.GetComponent<Enemy>();
-        else if (Target != null)
-            Target = null;
-    }
+        if (collider != null && collider.TryGetComponent(out Enemy enemy))
+        {
+            Target = enemy;
+        }
 
-    private void OnDisable()
-    {
-        StopCoroutine(Hitting());
+        Attacking = StartCoroutine(Hitting());
     }
 
     private IEnumerator Hitting()
     {
-        WaitForSeconds waitingTime = new WaitForSeconds(DelayBetweenAttacks);
+        Animator.SetTrigger(HumanAnimator.Parameters.Attack);
 
-        while (true)
+        if (Target != null)
         {
-            if (_inputPlayer.IsAttacked == true)
-            {
-                Animator.SetTrigger(HumanAnimator.Parameters.Attack);
-
-                if (Target != null)
-                {
-                    Hit();
-                }
-
-                yield return waitingTime;
-            }
-            else
-                yield return null;
+            Hit();
+            Target = null;
         }
+
+        yield return WaitingTime;
+        Attacking = null;
     }
 }

@@ -1,12 +1,41 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Animator), typeof(CharacterHealth))]
-public class Enemy : Human 
+[RequireComponent(typeof(Animator), typeof(CharacterHealth))]
+public class Enemy : Human
 {
-    private void Start()
+    private EnemyMover _mover;
+    private HitterEnemy _hitter;
+
+    private void OnEnable()
     {
-        Animator = GetComponent<Animator>();
-        CharacterHealth = GetComponent<CharacterHealth>();
+        _mover = GetComponent<EnemyMover>();
+        _hitter = GetComponent<HitterEnemy>();
+    }
+
+    private void Update()
+    {
+        if (_hitter.Target != null)
+        {
+            TransitToAttack();
+        }
+        else
+        {
+            if (_mover.enabled == false)
+                TransitToMove();
+        }
+    }
+
+    private void TransitToAttack()
+    {
+        _mover.enabled = false;
+        _hitter.StartAttack();
+    }
+
+    public void TransitToMove()
+    {
+        _hitter.StopAttack();
+        _mover.enabled = true;
     }
 }
+
 

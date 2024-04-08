@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyMover))]
+[RequireComponent(typeof(EnemyPursuit))]
 public class PlayerDetector : MonoBehaviour
 {
     [SerializeField] private LayerMask _playerLayerMask;
@@ -9,12 +9,13 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] private Color _gizmoColor;
 
     private Transform _detectorOrigin;
-    private EnemyMover _enemyMover;
+    private EnemyPursuit _enemyPursuit;
+    private bool _detected;
 
     private void Start()
     {
         _detectorOrigin = transform.parent;
-        _enemyMover = GetComponent<EnemyMover>();
+        _enemyPursuit = GetComponent<EnemyPursuit>();
     }
 
     private void FixedUpdate()
@@ -22,9 +23,18 @@ public class PlayerDetector : MonoBehaviour
         Collider2D collider = Physics2D.OverlapBox((Vector2)_detectorOrigin.position + _detectorOffset, _detectorSize, 0, _playerLayerMask);
 
         if (collider != null)
-            _enemyMover.SetTarget(collider.transform);
+        {
+            _enemyPursuit.DetectTarget(collider.transform);
+            _detected = true;
+        }
         else
-            _enemyMover.SetTarget(null);
+        {
+            if(_detected == true)
+            {
+                _enemyPursuit.DetectTarget(null);
+                _detected = false;
+            }
+        }
     }
 
     private void OnDrawGizmos()

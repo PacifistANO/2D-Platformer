@@ -9,11 +9,12 @@ public abstract class Hitter : MonoBehaviour
     [SerializeField] private Color _gizmosColor;
 
     protected Transform AttackPoint;
-    protected Human Target;
-    protected Coroutine Attack;
+    protected Coroutine Attacking;
     protected Animator Animator;
     protected WaitForSeconds WaitingTime;
     protected int Damage;
+
+    public Human Target { get; protected set; }
 
     protected void Hit()
     {
