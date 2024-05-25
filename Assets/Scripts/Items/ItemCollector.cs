@@ -25,7 +25,7 @@ public class ItemCollector : MonoBehaviour
 
         else if(collision.TryGetComponent(out Healer healer))
         {
-            _playerHealth.IncreaseHealth(healer.HealthIncrease);
+            _playerHealth.Increase(healer.HealthIncrease);
             ItemCollected?.Invoke(healer);
             Debug.Log($"Прибавка к здоровью + {healer.HealthIncrease}");
         }

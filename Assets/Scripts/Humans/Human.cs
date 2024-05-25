@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Human : MonoBehaviour
@@ -15,26 +16,26 @@ public abstract class Human : MonoBehaviour
         CharacterHealth = GetComponent<CharacterHealth>();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Animator.SetTrigger(HumanAnimator.Parameters.Hurt);
-        CharacterHealth.DecreaseHealth(damage);
+        CharacterHealth.Degrease(damage);
 
-        if (CharacterHealth.Value <= 0)
+        if (CharacterHealth.Value == 0)
             Die();
     }
 
     private void Die()
     {
-        if (TryGetComponent(out Rigidbody2D rigidbody2D))
-            rigidbody2D.bodyType = RigidbodyType2D.Static;
-
         foreach (Behaviour behaviour in GetComponents<Behaviour>())
         {
             if (behaviour != Animator)
                 behaviour.enabled = false;
         }
-        
+
+        if (TryGetComponent(out Rigidbody2D rigidbody2D))
+            rigidbody2D.bodyType = RigidbodyType2D.Static;
+
         Animator.SetTrigger(HumanAnimator.Parameters.Death);
     }
 }

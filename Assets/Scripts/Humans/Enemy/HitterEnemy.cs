@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,6 +25,11 @@ public class HitterEnemy : Hitter
             Target = null;
     }
 
+    private void OnDisable()
+    {
+        Target = null;
+    }
+
     public void StartAttack()
     {
         Animator.SetInteger(HumanAnimator.Parameters.AnimState, 0);
@@ -35,9 +41,7 @@ public class HitterEnemy : Hitter
     public void StopAttack()
     {
         if (Attacking != null)
-        {
             Attacking = null;
-        }
     }
 
     private IEnumerator Hitting()
