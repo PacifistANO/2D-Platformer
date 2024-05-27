@@ -60,7 +60,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &522722728740136011
 MonoBehaviour:
@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 849738116239795905}
   - component: {fileID: 3276299642474104218}
   - component: {fileID: 640329198983079043}
+  - component: {fileID: 8541910524497602993}
   m_Layer: 6
   m_Name: HeroKnight
   m_TagString: Player
@@ -419,6 +420,25 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _gizmosColor: {r: 0.85660374, g: 0.3151654, b: 0.3151654, a: 0.23137255}
+--- !u!114 &8541910524497602993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6323719953710832613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f455aaac457df44a98e9bcb594183bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radiusSkill: 5
+  _damagePerCycle: 5
+  _enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _gizmoColor: {r: 0.6377357, g: 0.33090058, b: 0.33090058, a: 0.22745098}
+  _skillButton: {fileID: 0}
 --- !u!1001 &7859710689519158033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -631,6 +651,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8005806829595029461, guid: df0f23bced4e7764b8b3c61b1f66adf0, type: 3}
+      propertyPath: _health
+      value: 
+      objectReference: {fileID: 3276299642474104218}
     - target: {fileID: 9030602223426911322, guid: df0f23bced4e7764b8b3c61b1f66adf0, type: 3}
       propertyPath: _hpCount
       value: 

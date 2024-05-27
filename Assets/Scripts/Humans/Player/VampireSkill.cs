@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterHealth))]
@@ -9,15 +11,14 @@ public class VampireSkill : MonoBehaviour
     [SerializeField] private float _damagePerCycle;
     [SerializeField] private LayerMask _enemyLayerMask;
     [SerializeField] private Color _gizmoColor;
-    [SerializeField] private Button _skillButton;
 
+    public Action SkillStopped;
+    
     private float _deltaTime;
     private float _skillTime;
     private bool _isWorked;
     private CharacterHealth _playerHealth;
-    Image _buttonImage;
-    Color _colorButton;
-    Color _skillColor;
+    
 
     private void Start()
     {
@@ -25,9 +26,6 @@ public class VampireSkill : MonoBehaviour
         _skillTime = 6;
         _isWorked = false;
         _playerHealth = GetComponent<CharacterHealth>();
-        _buttonImage = _skillButton.GetComponent<Image>();   
-        _colorButton = _buttonImage.color;
-        _skillColor = Color.gray;
     }
 
     public void OnSkillButtonClick()
@@ -38,8 +36,6 @@ public class VampireSkill : MonoBehaviour
 
     private IEnumerator DealDamage()
     {
-        _skillButton.interactable = false;
-        _buttonImage.color = _skillColor;
         _isWorked = true;
         float timeCounter = 0;
         var timeBerweenDamage = new WaitForSeconds(_deltaTime);
@@ -61,9 +57,8 @@ public class VampireSkill : MonoBehaviour
             yield return timeBerweenDamage;
         }
 
-        _skillButton.interactable = true;
-        _buttonImage.color = _colorButton;
         _isWorked = false;
+        SkillStopped?.Invoke();
     }
 
     private void OnDrawGizmos()
