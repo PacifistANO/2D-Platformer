@@ -4,19 +4,8 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] private List<Item> _itemPrefabs;
-    [SerializeField] private ItemCollector _collector;
 
     private Transform[] _points;
-
-    private void OnEnable()
-    {
-        _collector.ItemCollected += DeleteItem;
-    }
-
-    private void OnDisable()
-    {
-        _collector.ItemCollected -= DeleteItem;
-    }
 
     private void Start()
     {
@@ -29,16 +18,17 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-
     private void Spawn(Transform point)
     {
         int itemId = Random.Range(0, _itemPrefabs.Count);
         Item item = Instantiate(_itemPrefabs[itemId], point.position, Quaternion.identity);
         item.transform.SetParent(point);
+        item.IsCollected += DeleteItem;
     }
 
     private void DeleteItem(Item item)
     {
+        item.IsCollected -= DeleteItem;
         Destroy(item.gameObject);
     }
 }

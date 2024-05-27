@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator), typeof(CharacterHealth))]
+[RequireComponent(typeof(EnemyMover), typeof(HitterEnemy))]
 public class Enemy : Human
 {
     private EnemyMover _mover;
